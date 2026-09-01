@@ -1,0 +1,11 @@
+.venv/
+build/
+__pycache__/
+*.pyc
+runs/
+
+weights/*.pt
+artifacts/**/*.pt
+artifacts/**/*.onnx
+
+.vscode/

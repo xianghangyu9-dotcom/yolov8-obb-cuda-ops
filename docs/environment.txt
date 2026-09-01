@@ -1,0 +1,43 @@
+2026-09-02T00:26:39+08:00
+Linux DESKTOP-MM8H4FT 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+Distributor ID:	Ubuntu
+Description:	Ubuntu 24.04.4 LTS
+Release:	24.04
+Codename:	noble
+Wed Sep  2 00:26:39 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.02              Driver Version: 581.42         CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 5060        On  |   00000000:0B:00.0  On |                  N/A |
+|  0%   31C    P8             12W /  145W |    1098MiB /   8151MiB |      1%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A              26      G   /Xwayland                             N/A      |
++-----------------------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Tue_Jun_09_02:43:40_PM_PDT_2026
+Cuda compilation tools, release 13.3, V13.3.73
+Build cuda_13.3.r13.3/compiler.38244171_0
+cmake version 3.28.3
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.11.1
+Python 3.12.3
+torch: 2.11.0+cu130
+torch cuda: 13.0
+gpu: NVIDIA GeForce RTX 5060
+capability: (12, 0)
+ultralytics: 8.4.113
+onnx: 1.22.0
+onnxruntime: 1.29.0
