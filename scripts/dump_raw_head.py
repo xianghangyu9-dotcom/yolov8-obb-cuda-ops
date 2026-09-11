@@ -4,11 +4,60 @@ from pathlib import Path
 import torch
 from ultralytics import YOLO
 
+import cv2
+import numpy as np
+from ultralytics.data.augment import LetterBox
 
 ROOT = Path(__file__).resolve().parents[1]
 WEIGHTS = ROOT / "weights" / "yolov8n-obb.pt"
 OUTPUT_DIR = ROOT / "artifacts" / "golden"
+IMAGE_PATH = ROOT / "assets" / "test.jpg"
 
+def load_yolo_input(
+    image_path: Path,
+    image_size: int = 640,
+) -> torch.Tensor:
+    image_bgr = cv2.imread(str(image_path))
+
+    if image_bgr is None:
+        raise FileNotFoundError(
+            f"无法读取图片：{image_path}"
+        )
+
+    letterbox = LetterBox(
+        new_shape=(image_size, image_size),
+        auto=False,
+        scale_fill=False,
+        scaleup=True,
+        center=True,
+        stride=32,
+    )
+
+    # 输出仍为 BGR，尺寸为 640×640。
+    image_bgr = letterbox(image=image_bgr)
+
+    # BGR → RGB，HWC → CHW。
+    image_chw = image_bgr[..., ::-1].transpose(2, 0, 1)
+
+    # 消除 transpose 后可能出现的非连续内存。
+    image_chw = np.ascontiguousarray(image_chw)
+
+    # [H,W,C] uint8
+    # → [1,C,H,W] float32
+    # → [0,1]
+    input_tensor = (
+        torch.from_numpy(image_chw)
+        .unsqueeze(0)
+        .float()
+        .div_(255.0)
+    )
+
+    cv2.imwrite(
+        str(OUTPUT_DIR / "letterboxed_input.jpg"),
+        image_bgr,
+    )
+
+    return input_tensor
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -40,14 +89,9 @@ def main():
 
     hook_handle = head.register_forward_pre_hook(capture_head_inputs)
 
-    # 固定随机种子，让每次生成相同输入。
-    generator = torch.Generator(device="cpu")
-    generator.manual_seed(20260830)
-
-    input_tensor = torch.rand(
-        size=(1, 3, 640, 640),
-        generator=generator,
-        dtype=torch.float32,
+    input_tensor = load_yolo_input(
+        IMAGE_PATH,
+        image_size=640,
     )
 
     with torch.inference_mode():

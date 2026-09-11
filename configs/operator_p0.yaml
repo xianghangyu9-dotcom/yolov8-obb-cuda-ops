@@ -1,0 +1,15 @@
+reg_max: 16
+strides: [8, 16, 32]
+
+conf_threshold: 0.25
+iou_threshold: 0.45
+
+pre_topk: 1024
+max_det: 300
+
+input_width: 640
+input_height: 640
+
+grid_offset: 0.5
+class_agnostic: false
+multi_label: false
